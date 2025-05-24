@@ -10,9 +10,9 @@ typedef struct RLE_PAIR
 	BYTE byte2;
 } RLE_PAIR;
 
-void printImage(int width, int height, int size, int clrUsed);
+void printImage(DWORD width, DWORD height, DWORD size, DWORD clrUsed);
 
-void fillPalette(int clrUsed);
+void fillPalette(DWORD clrUsed);
 
 void readBytePair();
 
