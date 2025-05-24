@@ -13,38 +13,46 @@
 #define RLE_RUN       (currPair.byte1 >= 0x01)
 
 // Pixel data
-int imgWidth, imgHeight, imgSize, consumedBytes;
+DWORD imgWidth, imgHeight, imgSize;
 RGBQUAD *palette = NULL;
 RLE_PAIR currPair;
 
 // Cursor
-int x = 0;
-int y = 0;
+DWORD consumedBytes;
+DWORD x, y;
 
-void printImage(int width, int height, int size, int clrUsed)
+void printImage(DWORD width, DWORD height, DWORD size, DWORD clrUsed)
 {
 	imgWidth  = width;
 	imgHeight = height;
-	
 	imgSize   = size;
+	
+	if (palette != NULL)
+	{
+		free(palette);
+		palette = NULL;
+	}
 	fillPalette(clrUsed);
+	
+	consumedBytes = 0;
+	x = 0;
+	y = 0;
+	
+	currPair.byte1 = 0x00;
+	currPair.byte2 = 0x00;
 	
 	while (consumedBytes < imgSize)
 	{
 		readBytePair();
 		processBytePair();
 	}
-	
-	consumedBytes = 0;
-	x = 0;
-	y = 0;
 }
 
-void fillPalette(int clrUsed)
+void fillPalette(DWORD clrUsed)
 {
 	palette = malloc(clrUsed * sizeof(RGBQUAD));
 	
-	for (int i = 0; i < clrUsed; i++)
+	for (DWORD i = 0; i < clrUsed; i++)
 	{
 		ERR_HANDLER(1 != COMread((char*) &palette[i], sizeof(RGBQUAD), 1),
 			"error: cannot fill palette");
@@ -74,7 +82,7 @@ void processBytePair()
 	}
 	else if (ABS_RUN)
 	{
-		for (int i = 0; i < currPair.byte2; i++)
+		for (DWORD i = 0; i < currPair.byte2; i++)
 		{
 			BYTE nextByte = nextChar();
 			RGBQUAD color = palette[nextByte];
@@ -96,7 +104,7 @@ void processBytePair()
 	{
 		RGBQUAD color = palette[currPair.byte2];
 		
-		for (int i = 0; i < currPair.byte1; i++)
+		for (DWORD i = 0; i < currPair.byte1; i++)
 		{
 			if (!printPixel(color))
 			{
