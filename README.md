@@ -2,7 +2,7 @@
 
 Stand: 24.05.2025, 15:00
 
-## Known Issues:
+## Known Issues
 
 Funktioniert für alle Bilder, außer:
 
@@ -16,6 +16,7 @@ Funktionieren nicht, wie erwartet:
 - 6x10_8_bit_nicht_komprimiert_mit_padding_bytes.bmp (ungültiges Format)
 - BildSignaturDefekt.bmp (wirft Error aber printet trotzdem)
 
-## Todo:
+## Todo
 
 - [ ] Teilaufgabe b
+- [ ] Teilaufgabe c?
