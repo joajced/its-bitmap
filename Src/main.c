@@ -21,9 +21,7 @@ int main()
 		openNextFile();
 		readHeaders(&fileHeader, &infoHeader);
 		
-		int clrUsed = (infoHeader.biClrUsed == 0) ? 256 : infoHeader.biClrUsed;
-		lcdGotoXY(1, 1);
-		lcdPrintS(" ");
+		DWORD clrUsed = (infoHeader.biClrUsed == 0) ? 256 : infoHeader.biClrUsed;
 		printImage(infoHeader.biWidth, infoHeader.biHeight, infoHeader.biSizeImage, clrUsed);
 		
 		while (!isButtonPressed(S7));
