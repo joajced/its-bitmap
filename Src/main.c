@@ -7,6 +7,8 @@
 #include "button_input.h"
 #include "header_parser.h"
 
+#define TEILAUFGABE_A
+
 int main()
 {
 	initITSboard();
@@ -22,7 +24,15 @@ int main()
 		readHeaders(&fileHeader, &infoHeader);
 		
 		DWORD clrUsed = (infoHeader.biClrUsed == 0) ? 256 : infoHeader.biClrUsed;
-		printImage(infoHeader.biWidth, infoHeader.biHeight, infoHeader.biSizeImage, clrUsed);
+		initBmpPrinter(infoHeader.biWidth, infoHeader.biHeight, infoHeader.biSizeImage, clrUsed);
+		
+		#if defined TEILAUFGABE_A
+		printImage();
+		
+		#elif defined TEILAUFGABE_B
+		printImageLines();
+		
+		#endif
 		
 		while (!isButtonPressed(S7));
 		GUI_clear(WHITE);
