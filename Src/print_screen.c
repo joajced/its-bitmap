@@ -21,18 +21,27 @@ RLE_PAIR currPair;
 DWORD consumedBytes;
 DWORD x, y;
 
-void printImage(DWORD width, DWORD height, DWORD size, DWORD clrUsed)
+// Teilaufgabe A
+void printImage()
+{
+	while (consumedBytes < imgSize)
+	{
+		readBytePair();
+		processBytePair();
+	}
+}
+
+// Teilaufgabe B
+void printImageLines()
+{
+	
+}
+
+void initBmpPrinter(DWORD width, DWORD height, DWORD size, DWORD clrUsed)
 {
 	imgWidth  = width;
 	imgHeight = height;
 	imgSize   = size;
-	
-	if (palette != NULL)
-	{
-		free(palette);
-		palette = NULL;
-	}
-	fillPalette(clrUsed);
 	
 	consumedBytes = 0;
 	x = 0;
@@ -41,15 +50,12 @@ void printImage(DWORD width, DWORD height, DWORD size, DWORD clrUsed)
 	currPair.byte1 = 0x00;
 	currPair.byte2 = 0x00;
 	
-	while (consumedBytes < imgSize)
+	if (palette != NULL)
 	{
-		readBytePair();
-		processBytePair();
+		free(palette);
+		palette = NULL;
 	}
-}
-
-void fillPalette(DWORD clrUsed)
-{
+	
 	palette = malloc(clrUsed * sizeof(RGBQUAD));
 	
 	for (DWORD i = 0; i < clrUsed; i++)
